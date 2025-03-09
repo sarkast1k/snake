@@ -1,43 +1,96 @@
 #include <iostream>
 #include <raylib.h>
+#include <deque>
+#include <raymath.h>
 
 using namespace std;
 
-int main () {
+Color Green = {173,204,96,255};
+Color DarkGreen = {43,51,24,255};
 
-    const int SCREEN_WIDTH = 800;
-    const int SCREEN_HEIGHT = 600;
-    int ball_x = 100;
-    int ball_y = 100;
-    int ball_speed_x = 5;
-    int ball_speed_y = 5;
-    int ball_radius = 15;
+int CellSize = 30;
+int CellCount = 25;
 
-    cout << "Hello World" << endl;
+double LastUpdateTime = 0;
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "My first RAYLIB program!");
-    SetTargetFPS(60);
+class Snake
+{
+public:
+    deque<Vector2> body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9}};
+    Vector2 direction = {1,0};
 
-    while (WindowShouldClose() == false){
-   
-        ball_x += ball_speed_x;
-        ball_y += ball_speed_y;
-
-        if(ball_x + ball_radius >= SCREEN_WIDTH || ball_x - ball_radius <= 0)
-        {
-            ball_speed_x *= -1;
-        }
-
-        if(ball_y + ball_radius >= SCREEN_HEIGHT || ball_y - ball_radius <= 0)
-        {
-            ball_speed_y *= -1;
-        }
-        
-        BeginDrawing();
-            ClearBackground(BLACK);
-            DrawCircle(ball_x,ball_y,ball_radius, WHITE);
-        EndDrawing();
+    void Draw()
+  {
+    for (unsigned int i = 0; i < body.size(); i++)
+    {
+      float x = body[i].x;
+      float y = body[i].y;
+      Rectangle segment = Rectangle{x * CellSize, y* CellSize, (float)CellSize, (float)CellSize};
+      DrawRectangleRounded(segment, 0.5, 6, DarkGreen);
     }
+  }
 
-    CloseWindow();
+  void Update()
+  {
+    body.pop_back();
+    body.push_front(Vector2Add(body[0], direction));
+  }
+    
+};
+
+class Food{
+public:
+   Vector2 position;
+   Texture2D texture;
+
+   Food()
+   {
+    Image image = LoadImage("Textures/hood.png");
+    texture = LoadTextureFromImage(image);
+    UnloadImage(image);
+    position = GenerateRandomPos();
+   }
+
+   ~Food()
+   {
+    UnloadTexture(texture);
+   }
+
+   void Draw()
+   {
+     DrawTexture(texture, position.x * CellSize, position.y * CellSize, WHITE);
+   }
+
+   Vector2 GenerateRandomPos()
+   {
+    float x = GetRandomValue(0, CellCount - 1);
+    float y = GetRandomValue(0, CellCount - 1);
+    return Vector2{x, y};
+  }
+
+};
+
+int main () 
+{
+
+  cout << "Starting the game..." << endl;
+
+  SetTargetFPS(60);
+  
+  InitWindow(CellSize * CellCount, CellSize * CellCount, "Snake Game");
+  Food food;
+  Snake snake;
+  while (WindowShouldClose() == 0)
+  {
+    BeginDrawing();
+    snake.Update();
+    ClearBackground(Green);
+    food.Draw();
+    snake.Draw();
+    EndDrawing();
+  }
+
+  CloseWindow();
+
+return 0;
 }
