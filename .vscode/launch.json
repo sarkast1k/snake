@@ -60,8 +60,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/sarkast1k/Downloads/code/snake-cpp",
-      "program": "c:/Users/sarkast1k/Downloads/code/snake-cpp/build/Debug/outDebug",
+      "cwd": "c:/Users/sarkast1k/Downloads/code/snake",
+      "program": "c:/Users/sarkast1k/Downloads/code/snake/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
