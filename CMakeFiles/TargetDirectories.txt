@@ -1,0 +1,3 @@
+C:/Users/sarkast1k/Downloads/code/snake/CMakeFiles/snake.dir
+C:/Users/sarkast1k/Downloads/code/snake/CMakeFiles/edit_cache.dir
+C:/Users/sarkast1k/Downloads/code/snake/CMakeFiles/rebuild_cache.dir

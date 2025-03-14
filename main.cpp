@@ -2,6 +2,7 @@
   #include <raylib.h>
   #include <deque>
   #include <raymath.h>
+  #include <raygui.h>
 
   using namespace std;
 
